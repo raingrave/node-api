@@ -6,7 +6,7 @@ const customerService = require('../services/customerService.js')
 
 const authService = require('../services/authService.js')
 
-const verifyToken = require('../midleware/verifyToken.js')
+const verifyToken = require('../middleware/verifyToken.js')
 
 routes.get('/', (request, response) => {
 	return response.send('API')

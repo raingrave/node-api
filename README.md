@@ -3,10 +3,10 @@ node js api example
 
 Intall
 
-1 - cd project path
-2 - npm install
-3 - npm run dev
-4 - http:localhost:9090
+#1 - cd project path
+#2 - npm install
+#3 - npm run dev
+#4 - http:localhost:9090
 
 Resources
 

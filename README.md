@@ -10,7 +10,7 @@ create database and rename/configuration .env.example file
 
 1. cd project path
 2. npm install
-3. sequelize db:migrate
+3. npx sequelize-cli db:migrate
 4. npm run dev
 4. http://localhost:9090
 

@@ -1,12 +1,21 @@
-# node-api
-node js api example
+# Node API
 
-Intall
+Node api example
 
-#1 - cd project path
-#2 - npm install
-#3 - npm run dev
-#4 - http:localhost:9090
+## Installation
+
+Install project
+
+create database and rename/configuration .env.example file
+
+1. cd project path
+2. npm install
+3. sequelize db:migrate
+4. npm run dev
+4. http://localhost:9090
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
 
 Resources
 

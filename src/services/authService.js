@@ -1,21 +1,17 @@
 const bcrypt = require('bcrypt')
 const Customer = require('../models/Customer.js')
-const jwtService = require('./jwtService')
+const Boom = require('boom')
+const jwtService = require('../services/jwtService')
 
 const check = (email, password) => {
-	return Customer.findOne({
-		where: {
-			email: email
-		}
-	}).then(async user => {
-		if (user.email === email && await bcrypt.compare(password, user.password)) {
-			return user	
-		}
+	return Customer.findOne({ where: { email: email }})
+		.then(async customer => {
+			if (customer.email == email && await bcrypt.compare(password, customer.password)) {
+				return true	
+			}
 
-		const Boom = require('boom')
-
-		throw Boom.badRequest('invalid credentials')
-	})
+			throw Boom.badRequest('invalid credentials').output
+		})
 }
 
 module.exports.authenticate = (credentials) => {

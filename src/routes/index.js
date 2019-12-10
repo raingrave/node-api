@@ -4,15 +4,18 @@ const routes = express.Router()
 
 const customerService = require('../services/customerService.js')
 
+const movieService = require('../services/movieService')
+
 const authService = require('../services/authService.js')
 
 const verifyToken = require('../middleware/verifyToken.js')
 
+// API
 routes.get('/', (request, response) => {
 	return response.send('API')
 })
 
-
+// All
 routes.get('/customers', verifyToken, async (request, response) => {
 	return response.json({
 		code: 200,
@@ -20,6 +23,7 @@ routes.get('/customers', verifyToken, async (request, response) => {
 	})
 })
 
+// Read
 routes.get('/customers/:id', verifyToken, async (request, response) => {
 	try {
 		return response.json({
@@ -30,6 +34,20 @@ routes.get('/customers/:id', verifyToken, async (request, response) => {
 	}
 })
 
+// Create
+routes.post('/customers', async (request, response) => {
+	try {
+		const customer = await customerService.create(request.body)
+
+		return response.set('endpoint', `http://localhost:9090/customers/${customer.id}`)
+					   .json(customer)
+					   
+	} catch (error) {
+		return response.status(error.statusCode).json(error.payload)
+	}
+})
+
+// Update
 routes.put('/customers/:id', verifyToken, async (request, response) => {
 	try {
 		return response.set('endpoint', `http://localhost:9090/customers/${request.params.id}`)
@@ -39,21 +57,70 @@ routes.put('/customers/:id', verifyToken, async (request, response) => {
 	}
 })
 
-routes.post('/customers', verifyToken, async (request, response) => {
+// Delete
+routes.delete('/customers/:id', verifyToken, async (request, response) => {
 	try {
-		const user = await customerService.create(request.body)
+		return response.json(await customerService.delete(request.params.id))
+	} catch (error) {
+		return response.status(error.statusCode).json(error.payload)
+	}
+})
 
-		return response.set('endpoint', `http://localhost:9090/customers/${user.id}`)
-					   .json(user)
+// Rent
+routes.post('/customers/:id', verifyToken, async (request, response) => {
+	try {
+		return response.json(await customerService.rent(request.params.id, request.body))
+	} catch (error) {
+		return response.status(error.statusCode).json(error.payload)
+	}
+})
+
+// All
+routes.get('/movies', verifyToken, async (request, response) => {
+	return response.json({
+		code: 200,
+		data: await movieService.getAll()
+	})
+})
+
+// Read
+routes.get('/movies/:id', verifyToken, async (request, response) => {
+	try {
+		return response.json({
+			data: await movieService.findById(request.params.id)
+		})
+	} catch (error) {
+		return response.status(error.statusCode).json(error.payload)
+	}
+})
+
+// Create
+routes.post('/movies', async (request, response) => {
+	try {
+		const movie = await movieService.create(request.body)
+
+		return response.set('endpoint', `http://localhost:9090/movies/${movie.id}`)
+					   .json(movie)
 					   
 	} catch (error) {
 		return response.status(error.statusCode).json(error.payload)
 	}
 })
 
-routes.delete('/customers/:id', verifyToken, async (request, response) => {
+// Update
+routes.put('/movies/:id', verifyToken, async (request, response) => {
 	try {
-		return response.json(await customerService.delete(request.params.id))
+		return response.set('endpoint', `http://localhost:9090/movies/${request.params.id}`)
+					   .json(await movieService.update(request.params.id, request.body))
+	} catch (error) {
+		return response.status(error.statusCode).json(error.payload)
+	}
+})
+
+// Delete
+routes.delete('/movies/:id', verifyToken, async (request, response) => {
+	try {
+		return response.json(await movieService.delete(request.params.id))
 	} catch (error) {
 		return response.status(error.statusCode).json(error.payload)
 	}
@@ -70,9 +137,7 @@ routes.post('/authenticate', async (request, response) => {
 				type: 'bearer'
 			})
 	} catch (error) {
-		return response
-			.status(400)
-			.json(error.output.payload)
+		return response.status(error.statusCode).json(error.payload)
 	}
 })
 

@@ -12,23 +12,22 @@ module.exports.getAll = () => {
 
 module.exports.findById =  (id) => {
 	return Customer.findByPk(id)
-		.then(user => {
-			if (user) {
-				return user
+		.then(customer => {
+			if (customer) {
+				return customer
 			}
 			
 			throw Boom.notFound('missing').output
 		})
 }
 
-module.exports.create = (user) => {
+module.exports.create = (customer) => {
+	customer.password = bcrypt.hashSync(customer.password, 8)
 
-	user.password = bcrypt.hashSync(user.password, 8)
-
-	return Customer.create(user)
-		.then(user => {
-			if (user.id) {
-				return user
+	return Customer.create(customer)
+		.then(customer => {
+			if (customer.id) {
+				return customer
 			}
 
 			throw Boom.badRequest('not created').output
@@ -36,9 +35,14 @@ module.exports.create = (user) => {
 }
 
 module.exports.update = (id, data) => {
+
+	if (data.password) {
+		data.password = bcrypt.hashSync(data.password, 8)
+	}
+
 	return Customer.update(data, { where: { id: id }})
-		.then(user => {
-			if (user[0]) {
+		.then(customer => {
+			if (customer[0]) {
 				return true
 			}
 
@@ -55,4 +59,9 @@ module.exports.delete = (id) => {
 
 			throw Boom.badRequest('not deleted').output
 		})
+}
+
+module.exports.rent = (id, movies) => {
+	console.log(id, movies)
+	return
 }

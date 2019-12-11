@@ -11,8 +11,12 @@ exports.generateToken = (payload) => {
 
 exports.tokenVerify = (token) => {
 	try {
-		return jwt.verify(token, process.env.JWT_SECRET).id
+		return jwt.verify(token, process.env.JWT_SECRET)
 	} catch(error) {
 		return error.message
 	}
+}
+
+exports.decodeToken = (token) => {
+	return jwt.verify(token, process.env.JWT_SECRET)
 }

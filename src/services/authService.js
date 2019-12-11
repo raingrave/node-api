@@ -3,18 +3,25 @@ const Customer = require('../models/Customer.js')
 const Boom = require('boom')
 const jwtService = require('../services/jwtService')
 
-const check = (email, password) => {
-	return Customer.findOne({ where: { email: email }})
-		.then(async customer => {
-			if (customer.email == email && await bcrypt.compare(password, customer.password)) {
-				return true	
-			}
+const check = async (email, password) => {
+	const customer = await Customer.findOne({ where: { email: email }})
+	
+	if (customer.email == email && await bcrypt.compare(password, customer.password)) {
+		return customer	
+	}
 
-			throw Boom.badRequest('invalid credentials').output
-		})
+	throw Boom.badRequest('invalid credentials').output
 }
 
-module.exports.authenticate = (credentials) => {
-	return check(credentials.email, credentials.password)
-		.then(payload => jwtService.generateToken(payload))
+module.exports.authenticate = async (credentials) => {
+	 const payload = await check(credentials.email, credentials.password)
+
+	 return jwtService.generateToken(payload)
+}
+
+module.exports.logout = () => {
+	return {
+		auth: false,
+		token: null
+	};
 }

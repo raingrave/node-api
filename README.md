@@ -29,20 +29,37 @@ Customers
 
 GET /customers list all customers
 GET /customer/id list specific customer
-POST /customers create new customer { email: VALID_NAME, email: VALID_EMAIL, password: VALID_PASSWORD }
-PUT /customers/id  { email: OTHER_NAME, email: OTHER_EMAIL, password: OTHER_PASSWORD }
+POST /customers create new customer
+```javascript{ email: VALID_NAME, email: VALID_EMAIL, password: VALID_PASSWORD }
+```
+PUT /customers/id
+```javascript
+{ email: OTHER_NAME, email: OTHER_EMAIL, password: OTHER_PASSWORD }
+```
 DELETE /customers/id
 
 Movies
 
 GET /movies list all movie
 GET /movies/id list specific movie
-POST /movies create new movie  { title: TITLE, director: DIRECTOR }
-PUT /movies/id  { title: TITLE, director: DIRECTOR }
+POST /movies create new movie
+```javascript
+{ title: TITLE, director: DIRECTOR }
+```
+PUT /movies/id
+```javascript
+{ title: TITLE, director: DIRECTOR }
+```
 DELETE /movies/id
 
 Rents
 
 GET /rents/customerId list movies rented by customer
-POST /rents rent especific movie  { customer_id: VALID_CUSTOMER, movie_id: VALID_MOVIE }
-PUT /rents return specific movie  { customerId: VALID_CUSTOMER, movieId: VALID_MOVIE }
+POST /rents rent especific movie
+```javascript
+{ customer_id: VALID_CUSTOMER, movie_id: VALID_MOVIE }
+```
+PUT /rents return specific movie
+```javascript
+{ customerId: VALID_CUSTOMER, movieId: VALID_MOVIE }
+```

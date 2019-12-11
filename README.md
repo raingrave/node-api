@@ -20,7 +20,7 @@ Resources
 Auth
 
 POST /authenticate 
-```json
+```javascript
 { email: VALID_EMAIL, password: VALID_PASSWORD }
 ```
 POST /logout

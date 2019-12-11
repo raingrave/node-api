@@ -137,7 +137,7 @@ routes.post('/rents', verifyToken, async (request, response) => {
 })
 
 // Return movie
-routes.delete('/rents', verifyToken, async (request, response) => {
+routes.put('/rents', verifyToken, async (request, response) => {
 	try {
 		return response.json(await rentService.returnMovie(request.body.customerId, request.body.movieId));
 	} catch (error) {

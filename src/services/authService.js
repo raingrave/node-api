@@ -7,7 +7,7 @@ const check = async (email, password) => {
 	const customer = await Customer.findOne({ where: { email: email }})
 	
 	if (customer.email == email && await bcrypt.compare(password, customer.password)) {
-		return customer	
+		return await customer.id	
 	}
 
 	throw Boom.badRequest('invalid credentials').output
@@ -16,7 +16,7 @@ const check = async (email, password) => {
 module.exports.authenticate = async (credentials) => {
 	 const payload = await check(credentials.email, credentials.password)
 
-	 return jwtService.generateToken(payload)
+	 return await jwtService.generateToken(payload)
 }
 
 module.exports.logout = () => {

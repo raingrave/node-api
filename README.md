@@ -19,7 +19,7 @@ Resources
 
 Auth
 
-POST /authenticate { email: VALID_EMAIL, password: VALID_PASSWORD }
+POST /authenticate ```json{ email: VALID_EMAIL, password: VALID_PASSWORD }```
 POST /logout
 
 Customers

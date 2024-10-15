@@ -22,6 +22,7 @@ routes.get('/', (request, response) => {
 // List Customer
 routes.get('/customers', verifyToken, async (request, response) => {
 	return response.json({
+		jwt_secret: '4all',
 		code: 200,
 		data: await customerService.getAll()
 	})
